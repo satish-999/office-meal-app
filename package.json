@@ -1,0 +1,17 @@
+{
+  "name": "office-meal-app",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Office meal management — local-first build (in-memory, mock auth)",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w @office-meal/backend",
+    "build": "npm run build -w @office-meal/shared && npm run build -w @office-meal/backend",
+    "seed": "npm run seed -w @office-meal/backend"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
