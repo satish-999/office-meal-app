@@ -18,7 +18,7 @@
 
 - [ ] GitHub account: [https://github.com/signup](https://github.com/signup)
 - [ ] Render account: [https://render.com](https://render.com) (sign in with GitHub)
-- [ ] Project folder: `office-meal-app` on your PC
+- [ ] Project folder: `office-  meal-app` on your PC
 
 ---
 
@@ -140,7 +140,7 @@ Render auto-rebuilds on push to `main`.
 
 | Problem | Fix |
 |---------|-----|
-| Build failed | Render → **Logs** tab → read error; often missing file in git push |
+| Build failed | Render → **Logs** tab. Common fix: `buildCommand` must use `npm install --include=dev` (see `render.yaml`) so TypeScript/Vite install during build |
 | Blank page | Check **Logs**; ensure `npm run build` succeeded |
 | Login fails | Check env vars `DEV_AUTH_SECRET` set |
 | Menu empty | Admin: add menu for **same date** employee selects |
