@@ -15,7 +15,9 @@ employeeRouter.get("/schedules", async (req, res, next) => {
   try {
     const date =
       (req.query.date as string) ?? new Date().toISOString().slice(0, 10);
-    const schedules = await scheduleRepo.listByDate(date);
+    const schedules = (await scheduleRepo.listByDate(date)).filter(
+      (s) => s.active
+    );
     res.json({ date, schedules });
   } catch (e) {
     next(e);
@@ -89,6 +91,15 @@ const feedbackSchema = z.object({
   facilityNotes: z.string().optional(),
 });
 
+employeeRouter.get("/feedback", async (req, res, next) => {
+  try {
+    const feedback = await feedbackService.listMine(req.user!.id);
+    res.json({ feedback });
+  } catch (e) {
+    next(e);
+  }
+});
+
 employeeRouter.post("/feedback", async (req, res, next) => {
   try {
     const input = feedbackSchema.parse(req.body);
@@ -97,6 +108,27 @@ employeeRouter.post("/feedback", async (req, res, next) => {
       ...input,
     });
     res.status(201).json(feedback);
+  } catch (e) {
+    next(e);
+  }
+});
+
+const feedbackUpdateSchema = z.object({
+  rating: z.number().min(1).max(5),
+  tags: z.array(z.string()).optional(),
+  comment: z.string().optional(),
+  facilityNotes: z.string().optional(),
+});
+
+employeeRouter.put("/feedback/:id", async (req, res, next) => {
+  try {
+    const input = feedbackUpdateSchema.parse(req.body);
+    const feedback = await feedbackService.update(
+      req.params.id,
+      req.user!.id,
+      input
+    );
+    res.json(feedback);
   } catch (e) {
     next(e);
   }

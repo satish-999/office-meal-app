@@ -2,6 +2,7 @@ import { Router } from "express";
 import { z } from "zod";
 import { requireAuth } from "../middleware/auth";
 import { serveService } from "../services/serveService";
+import { serveHistoryService } from "../services/serveHistoryService";
 
 export const serverRouter = Router();
 
@@ -40,6 +41,17 @@ serverRouter.post("/manual-serve", async (req, res, next) => {
     const body = manualSchema.parse(req.body);
     const result = await serveService.manualServe(body, req.user!.id);
     res.json({ success: true, ...result });
+  } catch (e) {
+    next(e);
+  }
+});
+
+serverRouter.get("/manual-history", async (req, res, next) => {
+  try {
+    const date =
+      (req.query.date as string) ?? new Date().toISOString().slice(0, 10);
+    const history = await serveHistoryService.listManualServes(date);
+    res.json({ date, history });
   } catch (e) {
     next(e);
   }

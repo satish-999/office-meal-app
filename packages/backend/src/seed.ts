@@ -6,14 +6,10 @@ import { employeeRepo, scheduleRepo } from "./repositories/memory";
 function tomorrowDate(): string {
   const d = new Date();
   d.setDate(d.getDate() + 1);
-  return d.toISOString().slice(0, 10);
-}
-
-function cutoffTomorrow(hour: number): string {
-  const d = new Date();
-  d.setDate(d.getDate() + 1);
-  d.setHours(hour, 0, 0, 0);
-  return d.toISOString();
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
 }
 
 const DEMO_EMPLOYEES: Omit<Employee, "id">[] = [
@@ -51,6 +47,31 @@ const DEMO_EMPLOYEES: Omit<Employee, "id">[] = [
   },
 ];
 
+const MEAL_SEED_ITEMS: Record<
+  "breakfast" | "lunch" | "dinner",
+  { veg: string[]; nonVeg: string[] }
+> = {
+  breakfast: {
+    veg: ["Idli", "Vada", "Sambar", "Coconut chutney", "Tea"],
+    nonVeg: ["Egg dosa", "Chicken sandwich", "Tea"],
+  },
+  lunch: {
+    veg: ["Rice", "Sambar", "Dal", "Mixed veg curry", "Curd", "Pickle", "Papad"],
+    nonVeg: ["Rice", "Chicken curry", "Dal", "Curd", "Pickle", "Papad"],
+  },
+  dinner: {
+    veg: ["Rice", "Sambar", "Dal", "Vegetable curry", "Curd", "Salad"],
+    nonVeg: ["Rice", "Fish curry", "Dal", "Curd", "Salad"],
+  },
+};
+
+function cutoffTomorrow(hour: number): string {
+  const d = new Date();
+  d.setDate(d.getDate() + 1);
+  d.setHours(hour, 0, 0, 0);
+  return d.toISOString();
+}
+
 export async function seedIfEmpty(): Promise<void> {
   if (memoryStore.employees.size > 0) return;
 
@@ -65,12 +86,15 @@ export async function seedIfEmpty(): Promise<void> {
   const cutoffs = { breakfast: 6, lunch: 10, dinner: 16 };
 
   for (const mealType of meals) {
+    const items = MEAL_SEED_ITEMS[mealType];
     const schedule: MealSchedule = {
       id: uuid(),
       date,
       mealType,
-      menuVeg: `Veg ${mealType} special`,
-      menuNonVeg: `Non-veg ${mealType} special`,
+      menuVegItems: items.veg,
+      menuNonVegItems: items.nonVeg,
+      menuVeg: items.veg.join(", "),
+      menuNonVeg: items.nonVeg.join(", "),
       cutoffAt: cutoffTomorrow(cutoffs[mealType]),
       capacity: 500,
       active: true,

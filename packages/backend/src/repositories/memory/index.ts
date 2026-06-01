@@ -50,6 +50,9 @@ export const scheduleRepo: MealScheduleRepository = {
   async save(schedule) {
     memoryStore.schedules.set(schedule.id, schedule);
   },
+  async delete(id) {
+    memoryStore.schedules.delete(id);
+  },
 };
 
 export const bookingRepo: BookingRepository = {
@@ -84,17 +87,33 @@ export const serveRepo: ServeEventRepository = {
   async findByDate(date) {
     return [...memoryStore.serveEvents.values()].filter((e) => e.date === date);
   },
+  async findManualByDate(date) {
+    return [...memoryStore.serveEvents.values()].filter(
+      (e) => e.date === date && e.manual
+    );
+  },
   async save(event) {
     memoryStore.serveEvents.set(event.id, event);
   },
 };
 
 export const feedbackRepo: FeedbackRepository = {
+  async findById(id) {
+    return memoryStore.feedback.get(id) ?? null;
+  },
   async save(feedback) {
     memoryStore.feedback.set(feedback.id, feedback);
   },
   async findByDate(date) {
     return [...memoryStore.feedback.values()].filter((f) => f.date === date);
+  },
+  async findByEmployee(employeeId) {
+    return [...memoryStore.feedback.values()]
+      .filter((f) => f.employeeId === employeeId)
+      .sort(
+        (a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      );
   },
 };
 

@@ -22,8 +22,8 @@ export interface MealScheduleRepository {
   ): Promise<MealSchedule | null>;
   listByDate(date: string): Promise<MealSchedule[]>;
   save(schedule: MealSchedule): Promise<void>;
+  delete(id: string): Promise<void>;
 }
-
 export interface BookingRepository {
   findById(id: string): Promise<Booking | null>;
   findByEmployeeAndDate(
@@ -38,12 +38,15 @@ export interface BookingRepository {
 export interface ServeEventRepository {
   findByBookingId(bookingId: string): Promise<ServeEvent | null>;
   findByDate(date: string): Promise<ServeEvent[]>;
+  findManualByDate(date: string): Promise<ServeEvent[]>;
   save(event: ServeEvent): Promise<void>;
 }
 
 export interface FeedbackRepository {
+  findById(id: string): Promise<Feedback | null>;
   save(feedback: Feedback): Promise<void>;
   findByDate(date: string): Promise<Feedback[]>;
+  findByEmployee(employeeId: string): Promise<Feedback[]>;
 }
 
 export interface EscalationRepository {

@@ -1,0 +1,398 @@
+:root {
+  --bg: #0f1419;
+  --surface: #1a2332;
+  --surface2: #243044;
+  --text: #e8eef4;
+  --muted: #8b9cb3;
+  --accent: #3b82f6;
+  --accent-hover: #2563eb;
+  --veg: #22c55e;
+  --nonveg: #f97316;
+  --danger: #ef4444;
+  --ok: #22c55e;
+  --radius: 12px;
+  font-family: "Segoe UI", system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+a {
+  color: var(--accent);
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.app-shell {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1rem 1.25rem 2rem;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--surface2);
+}
+
+.topbar h1 {
+  font-size: 1.25rem;
+  margin: 0;
+}
+
+.topbar .meta {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--surface2);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.card h2 {
+  margin: 0 0 1rem;
+  font-size: 1.1rem;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+@media (max-width: 600px) {
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+label {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 0.35rem;
+}
+
+input,
+select,
+textarea,
+button {
+  font: inherit;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid var(--surface2);
+  background: var(--bg);
+  color: var(--text);
+}
+
+textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  background: var(--accent);
+  color: white;
+}
+
+.btn:hover {
+  background: var(--accent-hover);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background: var(--surface2);
+  color: var(--text);
+}
+
+.btn-danger {
+  background: var(--danger);
+}
+
+.btn-veg {
+  background: var(--veg);
+  color: #052e12;
+}
+
+.btn-nonveg {
+  background: var(--nonveg);
+  color: #1a0a00;
+}
+
+.btn-registered {
+  background: var(--ok);
+  color: #052e12;
+  cursor: default;
+}
+
+.employee-detail-panel {
+  background: var(--bg);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  margin: 0.25rem 0;
+}
+
+.employee-detail-panel p {
+  margin: 0.35rem 0;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.badge-veg {
+  background: rgba(34, 197, 94, 0.2);
+  color: var(--veg);
+}
+
+.badge-nonveg {
+  background: rgba(249, 115, 22, 0.2);
+  color: var(--nonveg);
+}
+
+.badge-booked {
+  background: rgba(59, 130, 246, 0.2);
+  color: #93c5fd;
+}
+
+.badge-served {
+  background: rgba(34, 197, 94, 0.2);
+  color: var(--ok);
+}
+
+.badge-cancelled {
+  background: rgba(148, 163, 184, 0.2);
+  color: var(--muted);
+}
+
+.booking-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.booking-list li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--surface2);
+}
+
+.booking-list li:last-child {
+  border-bottom: none;
+}
+
+.error {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid var(--danger);
+  color: #fecaca;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.success {
+  background: rgba(34, 197, 94, 0.15);
+  border: 1px solid var(--ok);
+  color: #bbf7d0;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 400px;
+}
+
+.qr-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: white;
+  border-radius: var(--radius);
+}
+
+.qr-box p {
+  color: #111;
+  margin: 0;
+  font-weight: 600;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 0.6rem 0.5rem;
+  border-bottom: 1px solid var(--surface2);
+}
+
+th {
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.nav-tabs {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.nav-tabs a {
+  padding: 0.5rem 0.85rem;
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--muted);
+  background: var(--surface);
+  border: 1px solid var(--surface2);
+}
+
+.nav-tabs a.active {
+  color: white;
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.serve-result {
+  text-align: center;
+  padding: 1.5rem;
+}
+
+.serve-result .diet-big {
+  font-size: 1.75rem;
+  font-weight: 800;
+  margin: 0.5rem 0;
+}
+
+.serve-result.veg .diet-big {
+  color: var(--veg);
+}
+
+.serve-result.nonveg .diet-big {
+  color: var(--nonveg);
+}
+
+.qr-scanner-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: stretch;
+}
+
+.qr-scanner-view {
+  min-height: 280px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #000;
+}
+
+.qr-scanner-view video {
+  border-radius: var(--radius);
+}
+
+.menu-items-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.menu-items-grid.menu-items-single {
+  grid-template-columns: 1fr;
+}
+
+@media (max-width: 600px) {
+  .menu-items-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.menu-items-heading {
+  margin: 0 0 0.5rem;
+  font-size: 0.9rem;
+}
+
+.menu-items-list {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.menu-items-list li {
+  margin: 0.25rem 0;
+}
+
+.menu-items-empty {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.menu-items-col {
+  background: var(--bg);
+  border-radius: 8px;
+  padding: 0.75rem;
+}

@@ -25,8 +25,14 @@ export interface MealSchedule {
   id: string;
   date: string; // YYYY-MM-DD
   mealType: MealType;
+  /** @deprecated use menuVegItems — kept for older data */
   menuVeg?: string;
+  /** @deprecated use menuNonVegItems */
   menuNonVeg?: string;
+  /** Individual veg dishes, e.g. Idli, Sambar */
+  menuVegItems?: string[];
+  /** Individual non-veg dishes, e.g. Egg curry */
+  menuNonVegItems?: string[];
   cutoffAt: string; // ISO datetime
   capacity: number;
   active: boolean;
@@ -70,6 +76,7 @@ export interface Feedback {
   comment?: string;
   facilityNotes?: string;
   createdAt: string;
+  updatedAt?: string;
 }
 
 export interface EscalationRecord {

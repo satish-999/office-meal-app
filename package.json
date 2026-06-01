@@ -7,11 +7,21 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "npm run dev -w @office-meal/backend",
-    "build": "npm run build -w @office-meal/shared && npm run build -w @office-meal/backend",
+    "dev": "npm run dev:all",
+    "dev:api": "npm run dev -w @office-meal/backend",
+    "dev:web": "npm run dev -w @office-meal/web",
+    "dev:all": "concurrently -n api,web -c blue,green \"npm run dev:api\" \"npm run dev:web\"",
+    "tunnel": "npx cloudflared tunnel --url http://localhost:5173",
+    "build": "npm run build -w @office-meal/shared && npm run build -w @office-meal/backend && npm run build -w @office-meal/web",
+    "build:prod": "npm run build",
+    "start": "npm run start -w @office-meal/backend",
+    "preview:prod": "npm run build && npm run start",
     "seed": "npm run seed -w @office-meal/backend"
   },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  },
   "engines": {
-    "node": ">=18"
+    "node": "20.x"
   }
 }
