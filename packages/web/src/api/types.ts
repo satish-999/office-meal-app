@@ -89,6 +89,17 @@ export interface BookingWithEmployee extends Booking {
   };
 }
 
+export interface AdminEmployee {
+  id: string;
+  employeeCode: string;
+  name: string;
+  email: string;
+  department: string;
+  defaultDiet: DietType;
+  role: Role;
+  active: boolean;
+}
+
 export interface ManualServeRecord {
   id: string;
   employeeCode: string;

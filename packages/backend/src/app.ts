@@ -7,6 +7,7 @@ import { serverRouter } from "./routes/server";
 import { adminRouter } from "./routes/admin";
 import { errorHandler } from "./middleware/errorHandler";
 import { getStorageMode } from "./repositories";
+import { notificationService } from "./services/notificationService";
 
 export function createApp() {
   const app = express();
@@ -15,14 +16,19 @@ export function createApp() {
 
   app.get("/health", (_req, res) => {
     const storage = getStorageMode();
+    const databaseUrlSet = Boolean(process.env.DATABASE_URL?.trim());
     res.json({
       status: "ok",
       mode: process.env.NODE_ENV === "production" ? "production" : "development",
       storage,
+      databaseUrlSet,
+      emailConfigured: notificationService.isEmailConfigured(),
       message:
         storage === "postgres"
           ? "Office Meal App (PostgreSQL)"
-          : "Office Meal App (in-memory demo)",
+          : databaseUrlSet
+            ? "DATABASE_URL set but storage is memory — check deploy logs"
+            : "Office Meal App (in-memory demo) — add DATABASE_URL in Render",
     });
   });
 

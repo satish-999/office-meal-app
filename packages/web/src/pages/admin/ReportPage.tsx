@@ -26,7 +26,10 @@ export function ReportPage() {
     setError("");
     try {
       const result = await api.processNoShows(date);
-      setJobMessage(`Processed ${result.processed} no-show(s). Mock emails logged on server.`);
+      setJobMessage(
+        `Processed ${result.processed} no-show(s). ` +
+          "Emails sent if Brevo is configured; otherwise check Render logs."
+      );
       await load();
     } catch (e) {
       setError(e instanceof Error ? e.message : "No-show job failed");

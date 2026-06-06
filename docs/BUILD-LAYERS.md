@@ -17,4 +17,6 @@ We build **top-down by capability**, swapping **adapters** later (DB, Redis, SSO
 
 **Current focus:** Layers **0–8** complete + **Render deploy** + **Phase 2A** (PostgreSQL optional, role enforcement, admin feedback/no-shows).
 
-**Next:** Layer **9** remainder (SSO, real email, cron, HR import).
+**Phase 2B:** CSV employee import, Brevo email (optional), GitHub Actions no-show cron.
+
+**Next:** SSO (Azure AD with IT), custom domain.

@@ -140,8 +140,7 @@ export function createPostgresRepos(pool: pg.Pool) {
       await pool.query(
         `INSERT INTO employees (id, employee_code, name, email, department, default_diet, role, active)
          VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
-         ON CONFLICT (id) DO UPDATE SET
-           employee_code = EXCLUDED.employee_code,
+         ON CONFLICT (employee_code) DO UPDATE SET
            name = EXCLUDED.name,
            email = EXCLUDED.email,
            department = EXCLUDED.department,

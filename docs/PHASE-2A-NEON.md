@@ -30,12 +30,16 @@ Open `http://localhost:3001/health` — should show `"storage":"postgres"`.
 
 ## 3) Render production
 
-1. [Render Dashboard](https://dashboard.render.com) → **office-meal-app** service
-2. **Environment** → **Add variable**
-   - Key: `DATABASE_URL`
-   - Value: your Neon connection string
-3. **Manual Deploy** → Deploy latest commit
-4. Check `https://YOUR-APP.onrender.com/health` → `"storage":"postgres"`
+1. [Render Dashboard](https://dashboard.render.com) → open **office-meal-app-279y** (your web service)
+2. Left menu → **Environment** (not Blueprint settings)
+3. **Add Environment Variable**
+   - Key: `DATABASE_URL` (exact spelling)
+   - Value: full Neon string starting with `postgresql://` (no quotes)
+4. **Save Changes** — wait for auto-redeploy, or **Manual Deploy**
+5. **Logs** tab — look for: `Storage: PostgreSQL`
+6. Check `/health`:
+   - `"databaseUrlSet": true` and `"storage": "postgres"` = success
+   - `"databaseUrlSet": false` = variable not on this service — add again on **office-meal-app-279y**
 
 ## 4) What changes
 

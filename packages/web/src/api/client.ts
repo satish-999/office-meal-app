@@ -7,6 +7,7 @@ import type {
   ManualServeRecord,
   MealSchedule,
   MealType,
+  AdminEmployee,
   FeedbackWithEmployee,
   ServeEmployeeInfo,
   User,
@@ -232,5 +233,20 @@ export const api = {
       `/api/admin/schedules/${id}`,
       { method: "DELETE" }
     );
+  },
+
+  listEmployees() {
+    return request<{ employees: AdminEmployee[] }>("/api/admin/employees");
+  },
+
+  importEmployees(csv: string) {
+    return request<{
+      created: number;
+      updated: number;
+      errors: string[];
+    }>("/api/admin/employees/import", {
+      method: "POST",
+      body: JSON.stringify({ csv }),
+    });
   },
 };

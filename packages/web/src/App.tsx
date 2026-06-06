@@ -13,6 +13,7 @@ import { ReportPage } from "./pages/admin/ReportPage";
 import { BookingsListPage } from "./pages/admin/BookingsListPage";
 import { MenuAdminPage } from "./pages/admin/MenuAdminPage";
 import { FeedbackAdminPage } from "./pages/admin/FeedbackAdminPage";
+import { EmployeesAdminPage } from "./pages/admin/EmployeesAdminPage";
 
 function HomeRedirect() {
   const { user } = useAuth();
@@ -56,6 +57,7 @@ export default function App() {
               <Route path="/admin/bookings" element={<BookingsListPage />} />
               <Route path="/admin/menu" element={<MenuAdminPage />} />
               <Route path="/admin/feedback" element={<FeedbackAdminPage />} />
+              <Route path="/admin/employees" element={<EmployeesAdminPage />} />
             </Route>
           </Route>
 

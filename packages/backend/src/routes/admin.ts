@@ -1,12 +1,25 @@
 import { Router } from "express";
 import { requireAuth } from "../middleware/auth";
+import { requireAdminOrCron } from "../middleware/requireAdminOrCron";
 import { reportService } from "../services/reportService";
 import { escalationService } from "../services/escalationService";
 import { adminService } from "../services/adminService";
 import { scheduleService } from "../services/scheduleService";
+import { employeeImportService } from "../services/employeeImportService";
 import { z } from "zod";
 
 export const adminRouter = Router();
+
+adminRouter.post("/jobs/no-shows", requireAdminOrCron, async (req, res, next) => {
+  try {
+    const date =
+      (req.body?.date as string) ?? new Date().toISOString().slice(0, 10);
+    const result = await escalationService.processNoShowsForDate(date);
+    res.json(result);
+  } catch (e) {
+    next(e);
+  }
+});
 
 adminRouter.use(requireAuth("admin"));
 
@@ -43,11 +56,23 @@ adminRouter.get("/feedback", async (req, res, next) => {
   }
 });
 
-adminRouter.post("/jobs/no-shows", async (req, res, next) => {
+adminRouter.get("/employees", async (_req, res, next) => {
   try {
-    const date =
-      (req.body?.date as string) ?? new Date().toISOString().slice(0, 10);
-    const result = await escalationService.processNoShowsForDate(date);
+    const employees = await employeeImportService.listAll();
+    res.json({ employees });
+  } catch (e) {
+    next(e);
+  }
+});
+
+const importSchema = z.object({
+  csv: z.string().min(1),
+});
+
+adminRouter.post("/employees/import", async (req, res, next) => {
+  try {
+    const { csv } = importSchema.parse(req.body);
+    const result = await employeeImportService.importCsv(csv);
     res.json(result);
   } catch (e) {
     next(e);

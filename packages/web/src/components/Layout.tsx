@@ -92,6 +92,9 @@ export function RoleNav() {
           <NavLink to="/admin/feedback" className={tabClass}>
             Feedback
           </NavLink>
+          <NavLink to="/admin/employees" className={tabClass}>
+            Employees
+          </NavLink>
         </>
       )}
     </nav>
