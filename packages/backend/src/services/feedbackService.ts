@@ -1,5 +1,5 @@
 import { v4 as uuid } from "uuid";
-import { feedbackRepo } from "../repositories/memory";
+import { feedbackRepo } from "../repositories";
 import type { DietType, MealType } from "@office-meal/shared";
 import { AppError } from "../domain/errors";
 

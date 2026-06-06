@@ -6,6 +6,7 @@ import { authRouter } from "./routes/auth";import { employeeRouter } from "./rou
 import { serverRouter } from "./routes/server";
 import { adminRouter } from "./routes/admin";
 import { errorHandler } from "./middleware/errorHandler";
+import { getStorageMode } from "./repositories";
 
 export function createApp() {
   const app = express();
@@ -13,13 +14,15 @@ export function createApp() {
   app.use(express.json());
 
   app.get("/health", (_req, res) => {
+    const storage = getStorageMode();
     res.json({
       status: "ok",
-      mode: process.env.NODE_ENV === "production" ? "production" : "local-in-memory",
+      mode: process.env.NODE_ENV === "production" ? "production" : "development",
+      storage,
       message:
-        process.env.NODE_ENV === "production"
-          ? "Office Meal App"
-          : "Integrations (Postgres, SSO, email) not connected yet",
+        storage === "postgres"
+          ? "Office Meal App (PostgreSQL)"
+          : "Office Meal App (in-memory demo)",
     });
   });
 

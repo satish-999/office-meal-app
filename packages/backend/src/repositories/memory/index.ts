@@ -75,6 +75,14 @@ export const bookingRepo: BookingRepository = {
       (b) => b.scheduleId === scheduleId && b.status === "booked"
     ).length;
   },
+  async countNoShowsByEmployeeSince(employeeId, sinceDate) {
+    return [...memoryStore.bookings.values()].filter(
+      (b) =>
+        b.employeeId === employeeId &&
+        b.status === "no_show" &&
+        b.date >= sinceDate
+    ).length;
+  },
 };
 
 export const serveRepo: ServeEventRepository = {

@@ -4,7 +4,7 @@ import { requireAuth } from "../middleware/auth";
 import { bookingService } from "../services/bookingService";
 import { qrService } from "../services/qrService";
 import { feedbackService } from "../services/feedbackService";
-import { scheduleRepo, bookingRepo } from "../repositories/memory";
+import { scheduleRepo, bookingRepo } from "../repositories";
 import { AppError } from "../domain/errors";
 
 export const employeeRouter = Router();

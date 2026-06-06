@@ -15,6 +15,6 @@ We build **top-down by capability**, swapping **adapters** later (DB, Redis, SSO
 | **8** | Admin UI | Reports, veg/non-veg counts, config | BI tools |
 | **9** | Integrations | — | Postgres, Redis, SSO, notifications, cloud |
 
-**Current focus:** Layers **0–8** complete + **camera QR**, **menu admin**, **production deploy config**.
+**Current focus:** Layers **0–8** complete + **Render deploy** + **Phase 2A** (PostgreSQL optional, role enforcement, admin feedback/no-shows).
 
-**Next:** Layer **9** (PostgreSQL persistence, SSO, real email).
+**Next:** Layer **9** remainder (SSO, real email, cron, HR import).

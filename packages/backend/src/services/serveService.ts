@@ -6,7 +6,7 @@ import {
   employeeRepo,
   scheduleRepo,
   serveRepo,
-} from "../repositories/memory";
+} from "../repositories";
 import { qrService } from "./qrService";
 
 export const serveService = {

@@ -1,7 +1,7 @@
 import { v4 as uuid } from "uuid";
 import type { MealSchedule, MealType } from "@office-meal/shared";
 import { AppError } from "../domain/errors";
-import { scheduleRepo } from "../repositories/memory";
+import { scheduleRepo } from "../repositories";
 
 export const scheduleService = {
   async listByDate(date: string) {

@@ -33,6 +33,10 @@ export interface BookingRepository {
   findByDate(date: string): Promise<Booking[]>;
   save(booking: Booking): Promise<void>;
   countActiveBySchedule(scheduleId: string): Promise<number>;
+  countNoShowsByEmployeeSince(
+    employeeId: string,
+    sinceDate: string
+  ): Promise<number>;
 }
 
 export interface ServeEventRepository {

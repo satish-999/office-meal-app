@@ -72,6 +72,14 @@ export interface Feedback {
   updatedAt?: string;
 }
 
+export interface FeedbackWithEmployee extends Feedback {
+  employee: {
+    employeeCode: string;
+    name: string;
+    department: string;
+  };
+}
+
 export interface BookingWithEmployee extends Booking {
   employee: {
     employeeCode: string;

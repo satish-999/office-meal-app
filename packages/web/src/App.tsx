@@ -12,6 +12,7 @@ import { ManualServePage } from "./pages/server/ManualServePage";
 import { ReportPage } from "./pages/admin/ReportPage";
 import { BookingsListPage } from "./pages/admin/BookingsListPage";
 import { MenuAdminPage } from "./pages/admin/MenuAdminPage";
+import { FeedbackAdminPage } from "./pages/admin/FeedbackAdminPage";
 
 function HomeRedirect() {
   const { user } = useAuth();
@@ -54,6 +55,7 @@ export default function App() {
               <Route path="/admin" element={<ReportPage />} />
               <Route path="/admin/bookings" element={<BookingsListPage />} />
               <Route path="/admin/menu" element={<MenuAdminPage />} />
+              <Route path="/admin/feedback" element={<FeedbackAdminPage />} />
             </Route>
           </Route>
 

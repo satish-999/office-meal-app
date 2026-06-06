@@ -5,7 +5,7 @@ import {
   bookingRepo,
   employeeRepo,
   scheduleRepo,
-} from "../repositories/memory";
+} from "../repositories";
 
 export const bookingService = {
   async createBooking(employeeId: string, input: CreateBookingInput) {

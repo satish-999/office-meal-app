@@ -1,8 +1,12 @@
-import type { Booking, Employee } from "@office-meal/shared";
-import { bookingRepo, employeeRepo } from "../repositories/memory";
+import type { Booking, Employee, Feedback } from "@office-meal/shared";
+import { bookingRepo, employeeRepo, feedbackRepo } from "../repositories";
 
 export interface BookingWithEmployee extends Booking {
   employee: Pick<Employee, "employeeCode" | "name" | "email" | "department">;
+}
+
+export interface FeedbackWithEmployee extends Feedback {
+  employee: Pick<Employee, "employeeCode" | "name" | "department">;
 }
 
 export const adminService = {
@@ -31,5 +35,30 @@ export const adminService = {
     }
 
     return result.sort((a, b) => a.mealType.localeCompare(b.mealType));
+  },
+
+  async listFeedbackWithEmployees(date: string): Promise<FeedbackWithEmployee[]> {
+    const items = await feedbackRepo.findByDate(date);
+    const result: FeedbackWithEmployee[] = [];
+
+    for (const item of items) {
+      const employee = await employeeRepo.findById(item.employeeId);
+      result.push({
+        ...item,
+        employee: employee
+          ? {
+              employeeCode: employee.employeeCode,
+              name: employee.name,
+              department: employee.department,
+            }
+          : {
+              employeeCode: "—",
+              name: "Unknown",
+              department: "—",
+            },
+      });
+    }
+
+    return result;
   },
 };

@@ -1,7 +1,6 @@
 import { Router } from "express";
 import { requireAuth } from "../middleware/auth";
 import { reportService } from "../services/reportService";
-import { feedbackService } from "../services/feedbackService";
 import { escalationService } from "../services/escalationService";
 import { adminService } from "../services/adminService";
 import { scheduleService } from "../services/scheduleService";
@@ -37,7 +36,7 @@ adminRouter.get("/feedback", async (req, res, next) => {
   try {
     const date =
       (req.query.date as string) ?? new Date().toISOString().slice(0, 10);
-    const feedback = await feedbackService.listByDate(date);
+    const feedback = await adminService.listFeedbackWithEmployees(date);
     res.json({ date, feedback });
   } catch (e) {
     next(e);

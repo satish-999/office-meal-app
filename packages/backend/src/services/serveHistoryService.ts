@@ -1,4 +1,4 @@
-import { employeeRepo, serveRepo } from "../repositories/memory";
+import { employeeRepo, serveRepo } from "../repositories";
 
 export const serveHistoryService = {
   async listManualServes(date: string) {

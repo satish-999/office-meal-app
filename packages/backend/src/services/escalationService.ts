@@ -1,5 +1,5 @@
 import { v4 as uuid } from "uuid";
-import { bookingRepo, employeeRepo, escalationRepo, serveRepo } from "../repositories/memory";
+import { bookingRepo, employeeRepo, escalationRepo, serveRepo } from "../repositories";
 import { notificationService } from "./notificationService";
 
 const NO_SHOW_THRESHOLD = 3;
@@ -33,9 +33,11 @@ export const escalationService = {
 
       const since = new Date();
       since.setDate(since.getDate() - WINDOW_DAYS);
-      const recentNoShows = (await bookingRepo.findByDate(date)).filter(
-        (b) => b.employeeId === employee.id && b.status === "no_show"
-      ).length;
+      const sinceDate = since.toISOString().slice(0, 10);
+      const recentNoShows = await bookingRepo.countNoShowsByEmployeeSince(
+        employee.id,
+        sinceDate
+      );
 
       if (recentNoShows >= NO_SHOW_THRESHOLD) {
         const level = Math.min(recentNoShows - NO_SHOW_THRESHOLD + 1, 3);

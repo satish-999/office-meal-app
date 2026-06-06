@@ -7,11 +7,11 @@ import {
   type ReactNode,
 } from "react";
 import { api, clearAuth, getStoredUser, saveAuth } from "../api/client";
-import type { Role, User } from "../api/types";
+import type { User } from "../api/types";
 
 interface AuthContextValue {
   user: User | null;
-  login: (employeeCode: string, role: Role) => Promise<void>;
+  login: (employeeCode: string) => Promise<User>;
   logout: () => void;
 }
 
@@ -20,11 +20,11 @@ const AuthContext = createContext<AuthContextValue | null>(null);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(() => getStoredUser());
 
-  const login = useCallback(async (employeeCode: string, role: Role) => {
-    const { token, user: u } = await api.devLogin(employeeCode, role);
-    const fullUser = { ...u, role };
-    saveAuth(token, fullUser);
-    setUser(fullUser);
+  const login = useCallback(async (employeeCode: string) => {
+    const { token, user: u } = await api.devLogin(employeeCode);
+    saveAuth(token, u);
+    setUser(u);
+    return u;
   }, []);
 
   const logout = useCallback(() => {

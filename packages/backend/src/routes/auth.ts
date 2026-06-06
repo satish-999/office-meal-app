@@ -2,26 +2,31 @@ import { Router } from "express";
 import jwt from "jsonwebtoken";
 import { z } from "zod";
 import { config } from "../config";
-import { employeeRepo } from "../repositories/memory";
+import { employeeRepo } from "../repositories";
 import { AppError } from "../domain/errors";
 
 export const authRouter = Router();
 
 const loginSchema = z.object({
   employeeCode: z.string().min(1),
-  role: z.enum(["employee", "server", "admin"]).default("employee"),
 });
 
-/** Dev-only login — replace with Azure AD / SSO later */
+/** Dev login — role comes from employee record, not client */
 authRouter.post("/dev-login", async (req, res, next) => {
   try {
     const body = loginSchema.parse(req.body);
-    const employee = await employeeRepo.findByCode(body.employeeCode);
+    const employee = await employeeRepo.findByCode(
+      body.employeeCode.trim().toUpperCase()
+    );
     if (!employee) {
       throw new AppError("Unknown employee code", 404);
     }
+    if (!employee.active) {
+      throw new AppError("Account inactive", 403);
+    }
+    const role = employee.role;
     const token = jwt.sign(
-      { id: employee.id, role: body.role, employeeCode: employee.employeeCode },
+      { id: employee.id, role, employeeCode: employee.employeeCode },
       config.devAuthSecret,
       { expiresIn: "12h" }
     );
@@ -31,7 +36,7 @@ authRouter.post("/dev-login", async (req, res, next) => {
         id: employee.id,
         name: employee.name,
         email: employee.email,
-        role: body.role,
+        role,
         defaultDiet: employee.defaultDiet,
       },
     });

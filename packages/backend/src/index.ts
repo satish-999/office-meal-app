@@ -1,8 +1,10 @@
 import { createApp } from "./app";
 import { config } from "./config";
+import { initRepositories } from "./repositories";
 import { seedIfEmpty } from "./seed";
 
 async function main() {
+  await initRepositories();
   await seedIfEmpty();
   const app = createApp();
   app.listen(config.port, "0.0.0.0", () => {

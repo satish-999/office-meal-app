@@ -7,6 +7,8 @@ export function ReportPage() {
   const [date, setDate] = useState(tomorrowDate);
   const [meals, setMeals] = useState<DailyMealReport[]>([]);
   const [error, setError] = useState("");
+  const [jobMessage, setJobMessage] = useState("");
+  const [jobLoading, setJobLoading] = useState(false);
 
   const load = useCallback(async () => {
     const { meals: m } = await api.dailyReport(date);
@@ -17,6 +19,22 @@ export function ReportPage() {
     load().catch((e) => setError(e.message));
   }, [load]);
 
+  async function processNoShows() {
+    if (!confirm(`Mark no-shows for ${date}? (Registered but not served)`)) return;
+    setJobLoading(true);
+    setJobMessage("");
+    setError("");
+    try {
+      const result = await api.processNoShows(date);
+      setJobMessage(`Processed ${result.processed} no-show(s). Mock emails logged on server.`);
+      await load();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "No-show job failed");
+    } finally {
+      setJobLoading(false);
+    }
+  }
+
   return (
     <>
       <RoleNav />
@@ -26,6 +44,20 @@ export function ReportPage() {
         <h2>Daily meal report</h2>
         <label>Date</label>
         <input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+        <div style={{ height: "1rem" }} />
+        <button
+          type="button"
+          className="btn btn-secondary"
+          onClick={processNoShows}
+          disabled={jobLoading}
+        >
+          {jobLoading ? "Processing…" : "Process no-shows for this date"}
+        </button>
+        {jobMessage && (
+          <p className="success" style={{ marginTop: "0.75rem", marginBottom: 0 }}>
+            {jobMessage}
+          </p>
+        )}
       </div>
 
       <div className="card table-wrap">

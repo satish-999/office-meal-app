@@ -1,5 +1,5 @@
 import type { DailyMealReport, MealType } from "@office-meal/shared";
-import { bookingRepo, serveRepo } from "../repositories/memory";
+import { bookingRepo, serveRepo } from "../repositories";
 
 const MEALS: MealType[] = ["breakfast", "lunch", "dinner"];
 

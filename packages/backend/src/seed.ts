@@ -1,7 +1,6 @@
 import { v4 as uuid } from "uuid";
 import type { Employee, MealSchedule } from "@office-meal/shared";
-import { memoryStore } from "./repositories/memory/store";
-import { employeeRepo, scheduleRepo } from "./repositories/memory";
+import { employeeRepo, scheduleRepo } from "./repositories";
 
 function tomorrowDate(): string {
   const d = new Date();
@@ -19,6 +18,7 @@ const DEMO_EMPLOYEES: Omit<Employee, "id">[] = [
     email: "priya@company.com",
     department: "Engineering",
     defaultDiet: "veg",
+    role: "employee",
     active: true,
   },
   {
@@ -27,6 +27,7 @@ const DEMO_EMPLOYEES: Omit<Employee, "id">[] = [
     email: "rahul@company.com",
     department: "HR",
     defaultDiet: "non_veg",
+    role: "employee",
     active: true,
   },
   {
@@ -35,6 +36,7 @@ const DEMO_EMPLOYEES: Omit<Employee, "id">[] = [
     email: "server@company.com",
     department: "Facilities",
     defaultDiet: "veg",
+    role: "server",
     active: true,
   },
   {
@@ -43,6 +45,7 @@ const DEMO_EMPLOYEES: Omit<Employee, "id">[] = [
     email: "admin@company.com",
     department: "Facilities",
     defaultDiet: "veg",
+    role: "admin",
     active: true,
   },
 ];
@@ -73,9 +76,10 @@ function cutoffTomorrow(hour: number): string {
 }
 
 export async function seedIfEmpty(): Promise<void> {
-  if (memoryStore.employees.size > 0) return;
+  const existing = await employeeRepo.list();
+  if (existing.length > 0) return;
 
-  console.log("Seeding demo data (in-memory)...");
+  console.log("Seeding demo data...");
 
   for (const e of DEMO_EMPLOYEES) {
     await employeeRepo.save({ ...e, id: uuid() });
@@ -106,7 +110,9 @@ export async function seedIfEmpty(): Promise<void> {
 }
 
 if (require.main === module) {
-  seedIfEmpty().then(() => {
+  import("./repositories").then(async ({ initRepositories }) => {
+    await initRepositories();
+    await seedIfEmpty();
     console.log("Seed complete.");
     process.exit(0);
   });

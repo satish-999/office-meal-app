@@ -7,7 +7,7 @@ import type {
   ManualServeRecord,
   MealSchedule,
   MealType,
-  Role,
+  FeedbackWithEmployee,
   ServeEmployeeInfo,
   User,
 } from "./types";
@@ -69,10 +69,23 @@ import { tomorrowDate } from "../utils/dates";
 export { tomorrowDate };
 
 export const api = {
-  devLogin(employeeCode: string, role: Role) {
+  devLogin(employeeCode: string) {
     return request<{ token: string; user: User }>("/api/auth/dev-login", {
       method: "POST",
-      body: JSON.stringify({ employeeCode, role }),
+      body: JSON.stringify({ employeeCode }),
+    });
+  },
+
+  listAdminFeedback(date: string) {
+    return request<{ date: string; feedback: FeedbackWithEmployee[] }>(
+      `/api/admin/feedback?date=${date}`
+    );
+  },
+
+  processNoShows(date: string) {
+    return request<{ processed: number }>("/api/admin/jobs/no-shows", {
+      method: "POST",
+      body: JSON.stringify({ date }),
     });
   },
 

@@ -18,6 +18,8 @@ export interface Employee {
   email: string;
   department: string;
   defaultDiet: DietType;
+  /** Server-assigned login role — not chosen by client */
+  role: Role;
   active: boolean;
 }
 
